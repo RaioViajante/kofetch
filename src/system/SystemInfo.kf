@@ -61,15 +61,23 @@ detectModel(String os): String {
     }
 
     if (os == "Linux") {
+        var vendor = process.run(
+            "sh",
+            "-c",
+            "cat /sys/devices/virtual/dmi/id/sys_vendor 2>/dev/null"
+        ).stdout.trim()
+
         var model = process.run(
             "sh",
             "-c",
             "cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null"
         ).stdout.trim()
 
-        if (model == "") return "Unknown"
+        if (vendor == "" && model == "") return "Unknown"
+        if (vendor == "") return model
+        if (model == "") return vendor
 
-        return model
+        return vendor + " " + model
     }
 
     return "Unknown"

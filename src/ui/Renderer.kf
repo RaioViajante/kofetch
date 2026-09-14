@@ -1,5 +1,18 @@
+padEnd(String text, Int width): String {
+    var result = text
+
+    while (result.length < width) {
+        result = result + " "
+    }
+
+    return result
+}
+
 renderFetch(String platform, List<String> logo, List<String> info) {
     var reset = resetColor()
+    var logoWidth = 38
+    var gap = "    "
+
     var total = logo.size
 
     if (info.size > total) {
@@ -12,9 +25,9 @@ renderFetch(String platform, List<String> logo, List<String> info) {
         if (i < logo.size && i < info.size) {
             println(
                 logoColor(platform, i)
-                + logo.get(i)
+                + padEnd(logo.get(i), logoWidth)
                 + reset
-                + "     "
+                + gap
                 + info.get(i)
             )
         } else if (i < logo.size) {
@@ -25,7 +38,8 @@ renderFetch(String platform, List<String> logo, List<String> info) {
             )
         } else {
             println(
-                "                                   "
+                padEnd("", logoWidth)
+                + gap
                 + info.get(i)
             )
         }

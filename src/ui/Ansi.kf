@@ -1,0 +1,5 @@
+resetColor(): String return "\u001B[0m"
+
+accentColor(): String return "\u001B[38;5;45m"
+
+titleColor(): String return "\u001B[1;38;5;213m"

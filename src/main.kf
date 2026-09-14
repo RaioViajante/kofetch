@@ -1,14 +1,14 @@
 import system
-import ui
+import
 
 
 main() {
     var system = collectSystemInfo()
     var logo = logoFor(system.os())
 
-    var reset = "\u001B[0m"
-    var accent = "\u001B[38;5;45m"
-    var title = "\u001B[1;38;5;213m"
+    var reset = resetColor()
+    var accent = accentColor()
+    var title = titleColor()
 
     var info = listOf(
         title + system.user() + "@" + system.shortHost() + reset,

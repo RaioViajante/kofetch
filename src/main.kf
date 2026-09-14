@@ -19,38 +19,7 @@ main() {
         accent + "Host:" + reset + "     " + system.host(),
         accent + "Uptime:" + reset + "   " + system.uptime(),
         accent + "Kof:" + reset + "      " + system.kofVersion()
-    )
-
-    var total = logo.size
-
-    if (info.size > total) {
-        total = info.size
-    }
-
-    var i = 0
-
-    while (i < total) {
-        if (i < logo.size && i < info.size) {
-            println(
-                logoColor(system.os(), i)
-                + logo.get(i)
-                + reset
-                + "     "
-                + info.get(i)
-            )
-        } else if (i < logo.size) {
-            println(
-                logoColor(system.os(), i)
-                + logo.get(i)
-                + reset
-            )
-        } else {
-            println(
-                "                                   "
-                + info.get(i)
-            )
-        }
-
-        i = i + 1
-    }
+    )  
+    
+    renderFetch(system.os(), logo, info)
 }

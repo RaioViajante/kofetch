@@ -1,0 +1,33 @@
+renderFetch(String os, List<String> logo, List<String> info) {
+    var reset = resetColor()
+    var total = logo.size
+
+    if (info.size > total) total = info.size
+
+    var i = 0
+
+    while (i < total) {
+        if (i < logo.size && i < info.size) {
+            println(
+                logoColor(os, i)
+                + logo.get(i)
+                + reset
+                + "     "
+                + info.get(i)
+            )
+        } else if (i < logo.size) {
+            println(
+                logoColor(os, i)
+                + logo.get(i)
+                + reset
+            )
+        } else {
+            println(
+                "                                   "
+                + info.get(i)
+            )
+        }
+
+        i = i + 1
+    }
+}

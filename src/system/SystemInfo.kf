@@ -6,6 +6,9 @@ record SystemInfo(
     String arch,
     String cpu,
     String memory,
+    String terminal,
+    String disk,
+    String battery,
     String shell,
     String host,
     String user,
@@ -87,6 +90,48 @@ detectMemory(String os): String {
     return "Unknown"
 }
 
+detectTerminal(String os): String {
+    if (os == "macOS") {
+        var terminal = process.run(
+            "sh",
+            "-c",
+            "printf '%s' \"${TERM_PROGRAM:-${TERM:-Unknown}}\""
+        ).stdout.trim()
+
+        return terminal
+    }
+
+    return "Unknown"
+}
+
+detectDisk(String os): String {
+    if (os == "macOS") {
+        return process.run(
+            "sh",
+            "-c",
+            "df -k / | awk 'NR==2 {printf \"%.1f GiB / %.1f GiB\", $3 / 1048576, $2 / 1048576}'"
+        ).stdout.trim()
+    }
+
+    return "Unknown"
+}
+
+detectBattery(String os): String {
+    if (os == "macOS") {
+        var battery = process.run(
+            "sh",
+            "-c",
+            "pmset -g batt | grep -Eo '[0-9]+%' | head -1"
+        ).stdout.trim()
+
+        if (battery == "") return "Unknown"
+
+        return battery
+    }
+
+    return "Unknown"
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
 
@@ -97,6 +142,9 @@ collectSystemInfo(): SystemInfo {
     var arch = process.run("uname", "-m").stdout.trim()
     var cpu = detectCpu(os)
     var memory = detectMemory(os)
+    var terminal = detectTerminal(os)
+    var disk = detectDisk(os)
+    var battery = detectBattery(os)
     var shell = process.run("sh", "-c", "basename \"$SHELL\"").stdout.trim()
     var host = process.run("hostname").stdout.trim()
     var user = process.run("whoami").stdout.trim()
@@ -122,6 +170,9 @@ collectSystemInfo(): SystemInfo {
         arch,
         cpu,
         memory,
+        terminal,
+        disk,
+        battery,
         shell,
         host,
         user,

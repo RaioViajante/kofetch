@@ -13,6 +13,8 @@ buildInfo(SystemInfo system): List<String> {
         accent + "Host:" + reset + "     " + system.model(),
         accent + "Kernel:" + reset + "   " + system.kernel(),
         accent + "Arch:" + reset + "     " + system.arch(),
+        accent + "CPU:" + reset + "      " + system.cpu(),
+        accent + "Memory:" + reset + "   " + system.memory(),
         accent + "Uptime:" + reset + "   " + system.uptime(),
         accent + "Shell:" + reset + "    " + system.shell(),
         accent + "Kof:" + reset + "      " + system.kofVersion()

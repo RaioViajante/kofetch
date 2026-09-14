@@ -4,6 +4,8 @@ record SystemInfo(
     String model,
     String kernel,
     String arch,
+    String cpu,
+    String memory,
     String shell,
     String host,
     String user,
@@ -53,6 +55,38 @@ detectKernel(): String {
     return process.run("uname", "-sr").stdout.trim()
 }
 
+detectCpu(String os): String {
+    if (os == "macOS") {
+        var name = process.run(
+            "sh",
+            "-c",
+            "sysctl -n machdep.cpu.brand_string 2>/dev/null || sysctl -n hw.model"
+        ).stdout.trim()
+
+        var cores = process.run(
+            "sysctl",
+            "-n",
+            "hw.ncpu"
+        ).stdout.trim()
+
+        return name + " (" + cores + " cores)"
+    }
+
+    return "Unknown"
+}
+
+detectMemory(String os): String {
+    if (os == "macOS") {
+        return process.run(
+            "sh",
+            "-c",
+            "total=$(sysctl -n hw.memsize); page=$(vm_stat | awk 'NR==1 {print $8}'); free=$(vm_stat | awk '/Pages free/ {gsub(/\\./, \"\", $3); print $3}'); inactive=$(vm_stat | awk '/Pages inactive/ {gsub(/\\./, \"\", $3); print $3}'); speculative=$(vm_stat | awk '/Pages speculative/ {gsub(/\\./, \"\", $3); print $3}'); used=$((total - (free + inactive + speculative) * page)); awk -v used=\"$used\" -v total=\"$total\" 'BEGIN {printf \"%.1f GiB / %.1f GiB\", used / 1073741824, total / 1073741824}'"
+        ).stdout.trim()
+    }
+
+    return "Unknown"
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
 
@@ -61,6 +95,8 @@ collectSystemInfo(): SystemInfo {
     var kernel = detectKernel()
 
     var arch = process.run("uname", "-m").stdout.trim()
+    var cpu = detectCpu(os)
+    var memory = detectMemory(os)
     var shell = process.run("sh", "-c", "basename \"$SHELL\"").stdout.trim()
     var host = process.run("hostname").stdout.trim()
     var user = process.run("whoami").stdout.trim()
@@ -84,6 +120,8 @@ collectSystemInfo(): SystemInfo {
         model,
         kernel,
         arch,
+        cpu,
+        memory,
         shell,
         host,
         user,

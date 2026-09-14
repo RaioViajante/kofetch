@@ -1,0 +1,25 @@
+main() {
+    var os = process.run("sw_vers", "-productName")
+    var arch = process.run("uname", "-m")
+    var shell = process.run("sh", "-c", "basename \"$SHELL\"")
+    var host = process.run("hostname")
+    var uptime = process.run(
+        "sh",
+        "-c",
+        "uptime | sed 's/.* up //' | sed 's/, [0-9][0-9]* users.*//'"
+    )
+    var kof = process.run(
+        "sh",
+        "-c",
+        "kof version | sed 's/^kof //'"
+    )
+
+    println("kofetch")
+    println("────────────────────────")
+    println("OS       " + os.stdout.trim())
+    println("Arch     " + arch.stdout.trim())
+    println("Shell    " + shell.stdout.trim())
+    println("Host     " + host.stdout.trim())
+    println("Uptime   " + uptime.stdout.trim())
+    println("Kof      " + kof.stdout.trim())
+}

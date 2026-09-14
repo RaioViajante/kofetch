@@ -135,6 +135,13 @@ detectCpu(String os): String {
         return name + " (" + cores + " cores, " + threads + " threads)"
     }
 
+    if (os == "Windows") {
+        return runPowerShell(
+            "$cpu = Get-CimInstance Win32_Processor | Select-Object -First 1; " +
+            "Write-Output ($cpu.Name.Trim() + ' (' + $cpu.NumberOfCores + ' cores, ' + $cpu.NumberOfLogicalProcessors + ' threads)')"
+        )
+    }
+
     return "Unknown"
 }
 
@@ -155,10 +162,34 @@ detectMemory(String os): String {
         ).stdout.trim()
     }
 
+    if (os == "Windows") {
+        return runPowerShell(
+            "$os = Get-CimInstance Win32_OperatingSystem; " +
+            "$total = $os.TotalVisibleMemorySize * 1KB; " +
+            "$free = $os.FreePhysicalMemory * 1KB; " +
+            "$used = $total - $free; " +
+            "Write-Output ('{0:N1} GiB / {1:N1} GiB' -f ($used / 1GB), ($total / 1GB))"
+        )
+    }
+
     return "Unknown"
 }
 
 detectTerminal(String os): String {
+    if (os == "Windows") {
+        var terminal = runPowerShell(
+            "if ($env:TERM_PROGRAM -eq 'vscode') { " +
+            "Write-Output 'Visual Studio Code' " +
+            "} elseif ($env:WT_SESSION) { " +
+            "Write-Output 'Windows Terminal' " +
+            "} else { " +
+            "Write-Output 'Unknown' " +
+            "}"
+        )
+
+        return terminal
+    }
+
     var terminal = process.run(
         "sh",
         "-c",
@@ -202,6 +233,14 @@ detectDisk(String os): String {
         ).stdout.trim()
     }
 
+    if (os == "Windows") {
+        return runPowerShell(
+            "$drive = Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='$env:SystemDrive'\"; " +
+            "$used = $drive.Size - $drive.FreeSpace; " +
+            "Write-Output ('{0:N1} GiB / {1:N1} GiB' -f ($used / 1GB), ($drive.Size / 1GB))"
+        )
+    }
+
     return "Unknown"
 }
 
@@ -224,6 +263,17 @@ detectBattery(String os): String {
             "-c",
             "for bat in /sys/class/power_supply/BAT*; do if [ -f \"$bat/capacity\" ]; then printf '%s%%' \"$(cat \"$bat/capacity\")\"; break; fi; done"
         ).stdout.trim()
+
+        if (battery == "") return "N/A"
+
+        return battery
+    }
+
+    if (os == "Windows") {
+        var battery = runPowerShell(
+            "$battery = Get-CimInstance Win32_Battery | Select-Object -First 1; " +
+            "if ($null -eq $battery) { Write-Output 'N/A' } else { Write-Output ($battery.EstimatedChargeRemaining.ToString() + '%') }"
+        )
 
         if (battery == "") return "N/A"
 
@@ -274,6 +324,18 @@ detectUptime(String os): String {
         ).stdout.trim()
     }
 
+    if (os == "Windows") {
+        return runPowerShell(
+            "$boot = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime; " +
+            "$span = (Get-Date) - $boot; " +
+            "if ($span.Days -gt 0) { " +
+            "Write-Output ($span.Days.ToString() + ' days, ' + $span.Hours.ToString() + ' hours, ' + $span.Minutes.ToString() + ' minutes') " +
+            "} else { " +
+            "Write-Output ($span.Hours.ToString() + ' hours, ' + $span.Minutes.ToString() + ' minutes') " +
+            "}"
+        )
+    }
+
     return "Unknown"
 }
 
@@ -313,31 +375,81 @@ detectArch(String os): String {
     return process.run("uname", "-m").stdout.trim()
 }
 
+detectShell(String os): String {
+    if (os == "Windows") {
+        return "PowerShell"
+    }
+
+    return process.run(
+        "sh",
+        "-c",
+        "basename \"$SHELL\""
+    ).stdout.trim()
+}
+
+detectHost(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output $env:COMPUTERNAME"
+        )
+    }
+
+    return process.run("hostname").stdout.trim()
+}
+
+detectUser(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output $env:USERNAME"
+        )
+    }
+
+    return process.run("whoami").stdout.trim()
+}
+
+detectShortHost(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output $env:COMPUTERNAME"
+        )
+    }
+
+    return process.run("hostname", "-s").stdout.trim()
+}
+
+detectKofVersion(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "(kof version) -replace '^kof ', ''"
+        )
+    }
+
+    return process.run(
+        "sh",
+        "-c",
+        "kof version | sed 's/^kof //'"
+    ).stdout.trim()
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
     var platform = detectPlatform(os)
+
     var osVersion = detectOsVersion(os)
     var model = detectModel(os)
     var kernel = detectKernel(os)
-
     var arch = detectArch(os)
     var cpu = detectCpu(os)
     var memory = detectMemory(os)
     var terminal = detectTerminal(os)
     var disk = detectDisk(os)
     var battery = detectBattery(os)
-    var shell = process.run("sh", "-c", "basename \"$SHELL\"").stdout.trim()
-    var host = process.run("hostname").stdout.trim()
-    var user = process.run("whoami").stdout.trim()
-    var shortHost = process.run("hostname", "-s").stdout.trim()
-
+    var shell = detectShell(os)
+    var host = detectHost(os)
+    var user = detectUser(os)
+    var shortHost = detectShortHost(os)
     var uptime = detectUptime(os)
-
-    var kofVersion = process.run(
-        "sh",
-        "-c",
-        "kof version | sed 's/^kof //'"
-    ).stdout.trim()
+    var kofVersion = detectKofVersion(os)
 
     return SystemInfo(
         os,

@@ -1,3 +1,50 @@
+ubuntuLogo(): List<String> {
+    return listOf(
+        "            .-/+oossssoo+/-.            ",
+        "        `:+ssssssssssssssssss+:`        ",
+        "      -+ssssssssssssssssssyyssss+-      ",
+        "    .ossssssssssssssssssdMMMNysssso.    ",
+        "   /ssssssssssshdmmNNmmyNMMMMhssssss/   ",
+        "  +ssssssssshmydMMMMMMMNddddyssssssss+  ",
+        " /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/ ",
+        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
+        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
+        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
+        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
+        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
+        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
+        " /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/ ",
+        "  +sssssssssdmydMMMMMMMMddddyssssssss+  ",
+        "   /ssssssssssshdmNNNNmyNMMMMhssssss/   ",
+        "    .ossssssssssssssssssdMMMNysssso.    ",
+        "      -+sssssssssssssssssyyyssss+-      ",
+        "        `:+ssssssssssssssssss+:`        ",
+        "            .-/+oossssoo+/-.            "
+    )
+}
+
+debianLogo(): List<String> {
+    return listOf(
+        "       _,met$$$$$gg.        ",
+        "    ,g$$$$$$$$$$$$$$$P.     ",
+        "  ,g$$P\"     \"\"\"Y$$.\".    ",
+        " ,$$P'              `$$$.   ",
+        "',$$P       ,ggs.     `$$b: ",
+        "`d$$'     ,$P\"'   .    $$$  ",
+        " $$P      d$'     ,    $$P  ",
+        " $$:      $$.   -    ,d$$'  ",
+        " $$;      Y$b._   _,d$P'    ",
+        " Y$$.    `.`\"Y$$$$P\"'       ",
+        " `$$b      \"-.__            ",
+        "  `Y$$                      ",
+        "   `Y$$.                    ",
+        "     `$$b.                  ",
+        "       `Y$$b.               ",
+        "          `\"Y$b._           ",
+        "              `\"\"\"          "
+    )
+}
+
 archLogo(): List<String> {
     return listOf(
         "                   -`          ",
@@ -70,6 +117,14 @@ logoFor(String platform): List<String> {
         )
     }
 
+    if (platform == "ubuntu") {
+        return ubuntuLogo()
+    }
+
+    if (platform == "debian") {
+        return debianLogo()
+    }
+
     if (platform == "arch") {
         return archLogo()
     }
@@ -107,6 +162,14 @@ logoColor(String platform, Int line): String {
         if (line < 14) return "\u001B[38;5;201m"
 
         return "\u001B[38;5;39m"
+    }
+
+    if (platform == "ubuntu") {
+        return "\u001B[38;5;208m"
+    }
+
+    if (platform == "debian") {
+        return "\u001B[38;5;197m"
     }
 
     if (platform == "arch") {

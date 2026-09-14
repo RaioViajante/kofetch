@@ -1,0 +1,19 @@
+import system
+
+
+buildInfo(SystemInfo system): List<String> {
+    var reset = resetColor()
+    var accent = accentColor()
+    var title = titleColor()
+
+    return listOf(
+        title + system.user() + "@" + system.shortHost() + reset,
+        "──────────────────────────────",
+        accent + "OS:" + reset + "       " + system.os(),
+        accent + "Arch:" + reset + "     " + system.arch(),
+        accent + "Shell:" + reset + "    " + system.shell(),
+        accent + "Host:" + reset + "     " + system.host(),
+        accent + "Uptime:" + reset + "   " + system.uptime(),
+        accent + "Kof:" + reset + "      " + system.kofVersion()
+    )
+}

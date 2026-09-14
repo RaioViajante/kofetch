@@ -1,3 +1,52 @@
+archLogo(): List<String> {
+    return listOf(
+        "                   -`          ",
+        "                  .o+`          ",
+        "                 `ooo/          ",
+        "                `+oooo:         ",
+        "               `+oooooo:        ",
+        "               -+oooooo+:       ",
+        "             `/:-:++oooo+:      ",
+        "            `/++++/+++++++:     ",
+        "           `/++++++++++++++:    ",
+        "          `/+++ooooooooooooo/`  ",
+        "         ./ooosssso++osssssso+` ",
+        "        .oossssso-````/ossssss+`",
+        "       -osssssso.      :ssssssso.",
+        "      :osssssss/        osssso+++",
+        "     /ossssssss/        +ssssooo/",
+        "   `/ossssso+/:-        -:/+osss.",
+        "  `+sso+:-`                 `.-/+",
+        " `++:.                         `-",
+        " .`                              "
+    )
+}
+
+fedoraLogo(): List<String> {
+    return listOf(
+        "             .',;::::;,'.       ",
+        "         .';:cccccccccccc:;,.   ",
+        "      .;cccccccccccccccccccccc;.",
+        "    .:cccccccccccccccccccccccc:.",
+        "  .;ccccccccccccc;.:dddl:.;cccc;",
+        " .:ccccccccccccc;OWMKOOXMWd;cccc:",
+        ".:ccccccccccccc;KMMc;cc;xMMc;cccc",
+        ",cccccccccccccc;MMM.;cc;;WW:;cccc",
+        ":cccccccccccccc;MMM.;cccccccccccc",
+        ":ccccccc;oxOOOo;MMM0OOk.;cccccccc",
+        "cccccc:0MMKxdd:;MMMkddc.;cccccccc",
+        "ccccc:XM0';cccc;MMM.;cccccccccccc",
+        "ccccc;MMo;ccccc;MMW.;cccccccccccc",
+        "ccccc;0MNc.ccc.xMMd;ccccccccccccc",
+        "cccccc;dNMWXXXWM0:;cccccccccccccc",
+        "cccccccc;.:odl:.;cccccccccccccccc",
+        "ccccccccccccccccccccccccccccccccc",
+        ":cccccccccccccccccccccccccccccccc",
+        " .:cccccccccccccccccccccccccccc:.",
+        "   .';cccccccccccccccccccccc;,."
+    )
+}
+
 logoFor(String platform): List<String> {
     if (platform == "macos") {
         return listOf(
@@ -19,6 +68,14 @@ logoFor(String platform): List<String> {
             "     ;KMMMMMMMWXXWMMMMMMMk.   ",
             "       \"cooc*\"    \"*coo'\"     "
         )
+    }
+
+    if (platform == "arch") {
+        return archLogo()
+    }
+
+    if (platform == "fedora") {
+        return fedoraLogo()
     }
 
     if (platform == "linux") {
@@ -50,6 +107,14 @@ logoColor(String platform, Int line): String {
         if (line < 14) return "\u001B[38;5;201m"
 
         return "\u001B[38;5;39m"
+    }
+
+    if (platform == "arch") {
+        return "\u001B[38;5;39m"
+    }
+
+    if (platform == "fedora") {
+        return "\u001B[38;5;33m"
     }
 
     if (platform == "linux") {

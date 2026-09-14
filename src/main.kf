@@ -1,25 +1,116 @@
-main() {
-    var os = process.run("sw_vers", "-productName")
-    var arch = process.run("uname", "-m")
-    var shell = process.run("sh", "-c", "basename \"$SHELL\"")
-    var host = process.run("hostname")
-    var uptime = process.run(
-        "sh",
-        "-c",
-        "uptime | sed 's/.* up //' | sed 's/, [0-9][0-9]* users.*//'"
+import system
+
+
+logoFor(String os): List<String> {
+    if (os == "macOS") {
+        return listOf(
+            "..'                           ",
+            "                 ,xNMM.       ",
+            "               .OMMMMo        ",
+            "               lMM\"           ",
+            "      .;loddo:.  .olloddol;.  ",
+            "    cKMMMMMMMMMMNWMMMMMMMMMM0:",
+            "  .KMMMMMMMMMMMMMMMMMMMMMMMWd.",
+            "  XMMMMMMMMMMMMMMMMMMMMMMMX.  ",
+            ";MMMMMMMMMMMMMMMMMMMMMMMM:    ",
+            ":MMMMMMMMMMMMMMMMMMMMMMMM:    ",
+            ".MMMMMMMMMMMMMMMMMMMMMMMMMX.  ",
+            " kMMMMMMMMMMMMMMMMMMMMMMMMWd. ",
+            " 'XMMMMMMMMMMMMMMMMMMMMMMMMMMk",
+            "  'XMMMMMMMMMMMMMMMMMMMMMMMMK.",
+            "    kMMMMMMMMMMMMMMMMMMMMMMd  ",
+            "     ;KMMMMMMMWXXWMMMMMMMk.   ",
+            "       \"cooc*\"    \"*coo'\"     "
+        )
+    }
+
+    if (os == "Linux") {
+        return listOf(
+            "      .--.                 ",
+            "     |o_o |                ",
+            "     |:_/ |                ",
+            "    //   \\ \\              ",
+            "   (|     | )              ",
+            "  /'\\_   _/`\\             "
+        )
+    }
+
+    return listOf(
+        "  ┌──────────┐             ",
+        "  │          │             ",
+        "  │    OS    │             ",
+        "  │          │             ",
+        "  └──────────┘             "
     )
-    var kof = process.run(
-        "sh",
-        "-c",
-        "kof version | sed 's/^kof //'"
+}
+
+logoColor(String os, Int line): String {
+    if (os == "macOS") {
+        if (line < 6) return "\u001B[38;5;46m"
+        if (line < 8) return "\u001B[38;5;226m"
+        if (line < 10) return "\u001B[38;5;203m"
+        if (line < 12) return "\u001B[38;5;196m"
+        if (line < 14) return "\u001B[38;5;201m"
+
+        return "\u001B[38;5;39m"
+    }
+
+    if (os == "Linux") {
+        return "\u001B[38;5;45m"
+    }
+
+    return "\u001B[97m"
+}
+
+main() {
+    var system = collectSystemInfo()
+    var logo = logoFor(system.os())
+
+    var reset = "\u001B[0m"
+    var accent = "\u001B[38;5;45m"
+    var title = "\u001B[1;38;5;213m"
+
+    var info = listOf(
+        title + system.user() + "@" + system.shortHost() + reset,
+        "──────────────────────────────",
+        accent + "OS:" + reset + "       " + system.os(),
+        accent + "Arch:" + reset + "     " + system.arch(),
+        accent + "Shell:" + reset + "    " + system.shell(),
+        accent + "Host:" + reset + "     " + system.host(),
+        accent + "Uptime:" + reset + "   " + system.uptime(),
+        accent + "Kof:" + reset + "      " + system.kofVersion()
     )
 
-    println("kofetch")
-    println("────────────────────────")
-    println("OS       " + os.stdout.trim())
-    println("Arch     " + arch.stdout.trim())
-    println("Shell    " + shell.stdout.trim())
-    println("Host     " + host.stdout.trim())
-    println("Uptime   " + uptime.stdout.trim())
-    println("Kof      " + kof.stdout.trim())
+    var total = logo.size
+
+    if (info.size > total) {
+        total = info.size
+    }
+
+    var i = 0
+
+    while (i < total) {
+        if (i < logo.size && i < info.size) {
+            println(
+                logoColor(system.os(), i)
+                + logo.get(i)
+                + reset
+                + "     "
+                + info.get(i)
+            )
+        } else if (i < logo.size) {
+            println(
+                logoColor(system.os(), i)
+                + logo.get(i)
+                + reset
+            )
+        } else {
+            println(
+                "                                   "
+                + info.get(i)
+            )
+        }
+
+        i = i + 1
+    }
 }

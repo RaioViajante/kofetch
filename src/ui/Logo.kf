@@ -1,5 +1,5 @@
-logoFor(String os): List<String> {
-    if (os == "macOS") {
+logoFor(String platform): List<String> {
+    if (platform == "macos") {
         return listOf(
             "..'                           ",
             "                 ,xNMM.       ",
@@ -21,7 +21,7 @@ logoFor(String os): List<String> {
         )
     }
 
-    if (os == "Linux") {
+    if (platform == "linux") {
         return listOf(
             "      .--.                 ",
             "     |o_o |                ",
@@ -41,8 +41,8 @@ logoFor(String os): List<String> {
     )
 }
 
-logoColor(String os, Int line): String {
-    if (os == "macOS") {
+logoColor(String platform, Int line): String {
+    if (platform == "macos") {
         if (line < 6) return "\u001B[38;5;46m"
         if (line < 8) return "\u001B[38;5;226m"
         if (line < 10) return "\u001B[38;5;203m"
@@ -52,7 +52,7 @@ logoColor(String os, Int line): String {
         return "\u001B[38;5;39m"
     }
 
-    if (os == "Linux") {
+    if (platform == "linux") {
         return "\u001B[38;5;45m"
     }
 

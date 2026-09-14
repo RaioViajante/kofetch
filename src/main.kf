@@ -1,11 +1,10 @@
 import system
 import ui
 
-
 main() {
     var system = collectSystemInfo()
-    var logo = logoFor(system.os())
+    var logo = logoFor(system.platform())
     var info = buildInfo(system)
 
-    renderFetch(system.os(), logo, info)
+    renderFetch(system.platform(), logo, info)
 }

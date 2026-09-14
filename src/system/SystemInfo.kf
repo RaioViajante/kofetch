@@ -1,5 +1,6 @@
 record SystemInfo(
     String os,
+    String platform,
     String osVersion,
     String model,
     String kernel,
@@ -136,9 +137,29 @@ detectBattery(String os): String {
     return "Unknown"
 }
 
+detectPlatform(String os): String {
+    if (os == "macOS") {
+        return "macos"
+    }
+
+    if (os == "Linux") {
+        var distro = process.run(
+            "sh",
+            "-c",
+            ". /etc/os-release 2>/dev/null; printf '%s' \"${ID:-linux}\""
+        ).stdout.trim()
+
+        if (distro == "") return "linux"
+
+        return distro
+    }
+
+    return "unknown"
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
-
+    var platform = detectPlatform(os)
     var osVersion = detectOsVersion(os)
     var model = detectModel(os)
     var kernel = detectKernel()
@@ -168,6 +189,7 @@ collectSystemInfo(): SystemInfo {
 
     return SystemInfo(
         os,
+        platform,
         osVersion,
         model,
         kernel,

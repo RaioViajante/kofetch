@@ -19,12 +19,13 @@ record SystemInfo(
 )
 
 detectOs(): String {
-    var raw = process.run("uname", "-s").stdout.trim()
+    var info = process.run("kof", "info").stdout
 
-    if (raw == "Darwin") return "macOS"
-    if (raw == "Linux") return "Linux"
+    if (containsText(info, "OS: macos")) return "macOS"
+    if (containsText(info, "OS: linux")) return "Linux"
+    if (containsText(info, "OS: windows")) return "Windows"
 
-    return raw
+    return "Unknown"
 }
 
 detectOsVersion(String os): String {
@@ -260,6 +261,23 @@ detectUptime(String os): String {
     }
 
     return "Unknown"
+}
+
+containsText(String text, String needle): Bool {
+    if (needle.length == 0) return true
+    if (needle.length > text.length) return false
+
+    var i = 0
+
+    while (i <= text.length - needle.length) {
+        if (text.substring(i, i + needle.length) == needle) {
+            return true
+        }
+
+        i = i + 1
+    }
+
+    return false
 }
 
 collectSystemInfo(): SystemInfo {

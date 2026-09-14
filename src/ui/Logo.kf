@@ -1,63 +1,38 @@
-ubuntuLogo(): List<String> {
+macosLogo(): List<String> {
     return listOf(
-        "            .-/+oossssoo+/-.            ",
-        "        `:+ssssssssssssssssss+:`        ",
-        "      -+ssssssssssssssssssyyssss+-      ",
-        "    .ossssssssssssssssssdMMMNysssso.    ",
-        "   /ssssssssssshdmmNNmmyNMMMMhssssss/   ",
-        "  +ssssssssshmydMMMMMMMNddddyssssssss+  ",
-        " /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/ ",
-        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
-        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
-        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
-        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
-        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
-        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
-        " /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/ ",
-        "  +sssssssssdmydMMMMMMMMddddyssssssss+  ",
-        "   /ssssssssssshdmNNNNmyNMMMMhssssss/   ",
-        "    .ossssssssssssssssssdMMMNysssso.    ",
-        "      -+sssssssssssssssssyyyssss+-      ",
-        "        `:+ssssssssssssssssss+:`        ",
-        "            .-/+oossssoo+/-.            "
-    )
-}
-
-debianLogo(): List<String> {
-    return listOf(
-        "       _,met$$$$$gg.        ",
-        "    ,g$$$$$$$$$$$$$$$P.     ",
-        "  ,g$$P\"     \"\"\"Y$$.\".    ",
-        " ,$$P'              `$$$.   ",
-        "',$$P       ,ggs.     `$$b: ",
-        "`d$$'     ,$P\"'   .    $$$  ",
-        " $$P      d$'     ,    $$P  ",
-        " $$:      $$.   -    ,d$$'  ",
-        " $$;      Y$b._   _,d$P'    ",
-        " Y$$.    `.`\"Y$$$$P\"'       ",
-        " `$$b      \"-.__            ",
-        "  `Y$$                      ",
-        "   `Y$$.                    ",
-        "     `$$b.                  ",
-        "       `Y$$b.               ",
-        "          `\"Y$b._           ",
-        "              `\"\"\"          "
+        "..'",
+        "                 ,xNMM.",
+        "               .OMMMMo",
+        "               lMM\"",
+        "      .;loddo:.  .olloddol;.",
+        "    cKMMMMMMMMMMNWMMMMMMMMMM0:",
+        "  .KMMMMMMMMMMMMMMMMMMMMMMMWd.",
+        "  XMMMMMMMMMMMMMMMMMMMMMMMX.",
+        ";MMMMMMMMMMMMMMMMMMMMMMMM:",
+        ":MMMMMMMMMMMMMMMMMMMMMMMM:",
+        ".MMMMMMMMMMMMMMMMMMMMMMMMMX.",
+        " kMMMMMMMMMMMMMMMMMMMMMMMMWd.",
+        " 'XMMMMMMMMMMMMMMMMMMMMMMMMMMk",
+        "  'XMMMMMMMMMMMMMMMMMMMMMMMMK.",
+        "    kMMMMMMMMMMMMMMMMMMMMMMd",
+        "     ;KMMMMMMMWXXWMMMMMMMk.",
+        "       \"cooc*\"    \"*coo'\""
     )
 }
 
 archLogo(): List<String> {
     return listOf(
-        "                   -`          ",
-        "                  .o+`          ",
-        "                 `ooo/          ",
-        "                `+oooo:         ",
-        "               `+oooooo:        ",
-        "               -+oooooo+:       ",
-        "             `/:-:++oooo+:      ",
-        "            `/++++/+++++++:     ",
-        "           `/++++++++++++++:    ",
-        "          `/+++ooooooooooooo/`  ",
-        "         ./ooosssso++osssssso+` ",
+        "                   -`",
+        "                  .o+`",
+        "                 `ooo/",
+        "                `+oooo:",
+        "               `+oooooo:",
+        "               -+oooooo+:",
+        "             `/:-:++oooo+:",
+        "            `/++++/+++++++:",
+        "           `/++++++++++++++:",
+        "          `/+++ooooooooooooo/`",
+        "         ./ooosssso++osssssso+`",
         "        .oossssso-````/ossssss+`",
         "       -osssssso.      :ssssssso.",
         "      :osssssss/        osssso+++",
@@ -65,14 +40,14 @@ archLogo(): List<String> {
         "   `/ossssso+/:-        -:/+osss.",
         "  `+sso+:-`                 `.-/+",
         " `++:.                         `-",
-        " .`                              "
+        " .`"
     )
 }
 
 fedoraLogo(): List<String> {
     return listOf(
-        "             .',;::::;,'.       ",
-        "         .';:cccccccccccc:;,.   ",
+        "             .',;::::;,'.",
+        "         .';:cccccccccccc:;,.",
         "      .;cccccccccccccccccccccc;.",
         "    .:cccccccccccccccccccccccc:.",
         "  .;ccccccccccccc;.:dddl:.;cccc;",
@@ -94,95 +69,125 @@ fedoraLogo(): List<String> {
     )
 }
 
-logoFor(String platform): List<String> {
-    if (platform == "macos") {
-        return listOf(
-            "..'                           ",
-            "                 ,xNMM.       ",
-            "               .OMMMMo        ",
-            "               lMM\"           ",
-            "      .;loddo:.  .olloddol;.  ",
-            "    cKMMMMMMMMMMNWMMMMMMMMMM0:",
-            "  .KMMMMMMMMMMMMMMMMMMMMMMMWd.",
-            "  XMMMMMMMMMMMMMMMMMMMMMMMX.  ",
-            ";MMMMMMMMMMMMMMMMMMMMMMMM:    ",
-            ":MMMMMMMMMMMMMMMMMMMMMMMM:    ",
-            ".MMMMMMMMMMMMMMMMMMMMMMMMMX.  ",
-            " kMMMMMMMMMMMMMMMMMMMMMMMMWd. ",
-            " 'XMMMMMMMMMMMMMMMMMMMMMMMMMMk",
-            "  'XMMMMMMMMMMMMMMMMMMMMMMMMK.",
-            "    kMMMMMMMMMMMMMMMMMMMMMMd  ",
-            "     ;KMMMMMMMWXXWMMMMMMMk.   ",
-            "       \"cooc*\"    \"*coo'\"     "
-        )
-    }
-
-    if (platform == "ubuntu") {
-        return ubuntuLogo()
-    }
-
-    if (platform == "debian") {
-        return debianLogo()
-    }
-
-    if (platform == "arch") {
-        return archLogo()
-    }
-
-    if (platform == "fedora") {
-        return fedoraLogo()
-    }
-
-    if (platform == "linux") {
-        return listOf(
-            "      .--.                 ",
-            "     |o_o |                ",
-            "     |:_/ |                ",
-            "    //   \\ \\              ",
-            "   (|     | )              ",
-            "  /'\\_   _/`\\             "
-        )
-    }
-
+ubuntuLogo(): List<String> {
     return listOf(
-        "  ┌──────────┐             ",
-        "  │          │             ",
-        "  │    OS    │             ",
-        "  │          │             ",
-        "  └──────────┘             "
+        "            .-/+oossssoo+/-.",
+        "        `:+ssssssssssssssssss+:`",
+        "      -+ssssssssssssssssssyyssss+-",
+        "    .ossssssssssssssssssdMMMNysssso.",
+        "   /ssssssssssshdmmNNmmyNMMMMhssssss/",
+        "  +ssssssssshmydMMMMMMMNddddyssssssss+",
+        " /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/",
+        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
+        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
+        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
+        "ossyNMMMNyMMhsssssssssssssshmmmhssssssso",
+        "+sssshhhyNMMNyssssssssssssyNMMMysssssss+",
+        ".ssssssssdMMMNhsssssssssshNMMMdssssssss.",
+        " /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/",
+        "  +sssssssssdmydMMMMMMMMddddyssssssss+",
+        "   /ssssssssssshdmNNNNmyNMMMMhssssss/",
+        "    .ossssssssssssssssssdMMMNysssso.",
+        "      -+sssssssssssssssssyyyssss+-",
+        "        `:+ssssssssssssssssss+:`",
+        "            .-/+oossssoo+/-. "
     )
 }
 
+debianLogo(): List<String> {
+    return listOf(
+        "       _,met$$$$$gg.",
+        "    ,g$$$$$$$$$$$$$$$P.",
+        "  ,g$$P\"     \"\"\"Y$$.\".",
+        " ,$$P'              `$$$.",
+        "',$$P       ,ggs.     `$$b:",
+        "`d$$'     ,$P\"'   .    $$$",
+        " $$P      d$'     ,    $$P",
+        " $$:      $$.   -    ,d$$'",
+        " $$;      Y$b._   _,d$P'",
+        " Y$$.    `.`\"Y$$$$P\"'",
+        " `$$b      \"-.__",
+        "  `Y$$",
+        "   `Y$$.",
+        "     `$$b.",
+        "       `Y$$b.",
+        "          `\"Y$b._",
+        "              `\"\"\""
+    )
+}
+
+windowsLogo(): List<String> {
+    return listOf(
+        "        ,.=:!!t3Z3z.,",
+        "       :tt:::tt333EE3",
+        "       Et:::ztt33EEEL @Ee.,      ..,",
+        "      ;tt:::tt333EE7 ;EEEEEEttttt33#",
+        "     :Et:::zt333EEQ. $EEEEEttttt33QL",
+        "     it::::tt333EEF @EEEEEEttttt33F",
+        "    ;3=*^```\"*4EEV :EEEEEEttttt33@.",
+        "    ,.=::::!t=., ` @EEEEEEtttz33QF",
+        "   ;::::::::zt33)   \"4EEEtttji3P*",
+        "  :t::::::::tt33.:Z3z..  `` ,..g.",
+        "  i::::::::zt33F AEEEtttt::::ztF",
+        " ;:::::::::t33V ;EEEttttt::::t3",
+        " E::::::::zt33L @EEEtttt::::z3F",
+        "{3=*^```\"*4E3) ;EEEtttt:::::tZ`",
+        "             ` :EEEEtttt::::z7",
+        "                 \"VEzjt:;;z>*`"
+    )
+}
+
+linuxLogo(): List<String> {
+    return listOf(
+        "      .--.",
+        "     |o_o |",
+        "     |:_/ |",
+        "    //   \\ \\",
+        "   (|     | )",
+        "  /'\\_   _/`\\"
+    )
+}
+
+unknownLogo(): List<String> {
+    return listOf(
+        "  ┌──────────┐",
+        "  │          │",
+        "  │    OS    │",
+        "  │          │",
+        "  └──────────┘"
+    )
+}
+
+logoFor(String platform): List<String> {
+    if (platform == "macos") return macosLogo()
+    if (platform == "arch") return archLogo()
+    if (platform == "fedora") return fedoraLogo()
+    if (platform == "ubuntu") return ubuntuLogo()
+    if (platform == "debian") return debianLogo()
+    if (platform == "windows") return windowsLogo()
+    if (platform == "linux") return linuxLogo()
+
+    return unknownLogo()
+}
+
+macosLogoColor(Int line): String {
+    if (line < 6) return "\u001B[38;5;46m"
+    if (line < 8) return "\u001B[38;5;226m"
+    if (line < 10) return "\u001B[38;5;203m"
+    if (line < 12) return "\u001B[38;5;196m"
+    if (line < 14) return "\u001B[38;5;201m"
+
+    return "\u001B[38;5;39m"
+}
+
 logoColor(String platform, Int line): String {
-    if (platform == "macos") {
-        if (line < 6) return "\u001B[38;5;46m"
-        if (line < 8) return "\u001B[38;5;226m"
-        if (line < 10) return "\u001B[38;5;203m"
-        if (line < 12) return "\u001B[38;5;196m"
-        if (line < 14) return "\u001B[38;5;201m"
-
-        return "\u001B[38;5;39m"
-    }
-
-    if (platform == "ubuntu") {
-        return "\u001B[38;5;208m"
-    }
-
-    if (platform == "debian") {
-        return "\u001B[38;5;197m"
-    }
-
-    if (platform == "arch") {
-        return "\u001B[38;5;39m"
-    }
-
-    if (platform == "fedora") {
-        return "\u001B[38;5;33m"
-    }
-
-    if (platform == "linux") {
-        return "\u001B[38;5;45m"
-    }
+    if (platform == "macos") return macosLogoColor(line)
+    if (platform == "arch") return "\u001B[38;5;39m"
+    if (platform == "fedora") return "\u001B[38;5;33m"
+    if (platform == "ubuntu") return "\u001B[38;5;208m"
+    if (platform == "debian") return "\u001B[38;5;197m"
+    if (platform == "windows") return "\u001B[38;5;39m"
+    if (platform == "linux") return "\u001B[38;5;45m"
 
     return "\u001B[97m"
 }

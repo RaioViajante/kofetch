@@ -240,6 +240,10 @@ detectPlatform(String os): String {
         return distro
     }
 
+    if (os == "Windows") {
+        return "windows"
+    }
+
     return "unknown"
 }
 

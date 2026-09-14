@@ -429,7 +429,7 @@ detectKofVersion(String os): String {
         "-c",
         "kof version | sed 's/^kof //'"
     ).stdout.trim()
-}
+}   
 
 collectSystemInfo(): SystemInfo {
     var os = detectOs()

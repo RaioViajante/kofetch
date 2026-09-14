@@ -41,6 +41,12 @@ detectOsVersion(String os): String {
         ).stdout.trim()
     }
 
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output (Get-CimInstance Win32_OperatingSystem).Caption"
+        )
+    }
+
     return ""
 }
 
@@ -62,29 +68,33 @@ detectModel(String os): String {
     }
 
     if (os == "Linux") {
-        var vendor = process.run(
-            "sh",
-            "-c",
-            "cat /sys/devices/virtual/dmi/id/sys_vendor 2>/dev/null"
-        ).stdout.trim()
-
         var model = process.run(
             "sh",
             "-c",
             "cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null"
         ).stdout.trim()
 
-        if (vendor == "" && model == "") return "Unknown"
-        if (vendor == "") return model
-        if (model == "") return vendor
+        if (model == "") return "Unknown"
 
-        return vendor + " " + model
+        return model
+    }
+
+    if (os == "Windows") {
+        return runPowerShell(
+            "$c = Get-CimInstance Win32_ComputerSystem; Write-Output ($c.Manufacturer + ' ' + $c.Model)"
+        )
     }
 
     return "Unknown"
 }
 
-detectKernel(): String {
+detectKernel(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output ('Windows NT ' + (Get-CimInstance Win32_OperatingSystem).Version)"
+        )
+    }
+
     return process.run("uname", "-sr").stdout.trim()
 }
 
@@ -284,14 +294,33 @@ containsText(String text, String needle): Bool {
     return false
 }
 
+runPowerShell(String command): String {
+    return process.run(
+        "powershell",
+        "-NoProfile",
+        "-Command",
+        command
+    ).stdout.trim()
+}
+
+detectArch(String os): String {
+    if (os == "Windows") {
+        return runPowerShell(
+            "Write-Output $env:PROCESSOR_ARCHITECTURE"
+        )
+    }
+
+    return process.run("uname", "-m").stdout.trim()
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
     var platform = detectPlatform(os)
     var osVersion = detectOsVersion(os)
     var model = detectModel(os)
-    var kernel = detectKernel()
+    var kernel = detectKernel(os)
 
-    var arch = process.run("uname", "-m").stdout.trim()
+    var arch = detectArch(os)
     var cpu = detectCpu(os)
     var memory = detectMemory(os)
     var terminal = detectTerminal(os)

@@ -1,66 +1,6 @@
 import system
+import ui
 
-
-logoFor(String os): List<String> {
-    if (os == "macOS") {
-        return listOf(
-            "..'                           ",
-            "                 ,xNMM.       ",
-            "               .OMMMMo        ",
-            "               lMM\"           ",
-            "      .;loddo:.  .olloddol;.  ",
-            "    cKMMMMMMMMMMNWMMMMMMMMMM0:",
-            "  .KMMMMMMMMMMMMMMMMMMMMMMMWd.",
-            "  XMMMMMMMMMMMMMMMMMMMMMMMX.  ",
-            ";MMMMMMMMMMMMMMMMMMMMMMMM:    ",
-            ":MMMMMMMMMMMMMMMMMMMMMMMM:    ",
-            ".MMMMMMMMMMMMMMMMMMMMMMMMMX.  ",
-            " kMMMMMMMMMMMMMMMMMMMMMMMMWd. ",
-            " 'XMMMMMMMMMMMMMMMMMMMMMMMMMMk",
-            "  'XMMMMMMMMMMMMMMMMMMMMMMMMK.",
-            "    kMMMMMMMMMMMMMMMMMMMMMMd  ",
-            "     ;KMMMMMMMWXXWMMMMMMMk.   ",
-            "       \"cooc*\"    \"*coo'\"     "
-        )
-    }
-
-    if (os == "Linux") {
-        return listOf(
-            "      .--.                 ",
-            "     |o_o |                ",
-            "     |:_/ |                ",
-            "    //   \\ \\              ",
-            "   (|     | )              ",
-            "  /'\\_   _/`\\             "
-        )
-    }
-
-    return listOf(
-        "  ┌──────────┐             ",
-        "  │          │             ",
-        "  │    OS    │             ",
-        "  │          │             ",
-        "  └──────────┘             "
-    )
-}
-
-logoColor(String os, Int line): String {
-    if (os == "macOS") {
-        if (line < 6) return "\u001B[38;5;46m"
-        if (line < 8) return "\u001B[38;5;226m"
-        if (line < 10) return "\u001B[38;5;203m"
-        if (line < 12) return "\u001B[38;5;196m"
-        if (line < 14) return "\u001B[38;5;201m"
-
-        return "\u001B[38;5;39m"
-    }
-
-    if (os == "Linux") {
-        return "\u001B[38;5;45m"
-    }
-
-    return "\u001B[97m"
-}
 
 main() {
     var system = collectSystemInfo()

@@ -104,12 +104,16 @@ detectCpu(String os): String {
         ).stdout.trim()
 
         var cores = process.run(
-            "nproc"
+            "sh",
+            "-c",
+            "lscpu -p=Core,Socket | grep -v '^#' | sort -u | wc -l | tr -d ' '"
         ).stdout.trim()
+
+        var threads = process.run("nproc").stdout.trim()
 
         if (name == "") return "Unknown"
 
-        return name + " (" + cores + " cores)"
+        return name + " (" + cores + " cores, " + threads + " threads)"
     }
 
     return "Unknown"
@@ -148,13 +152,15 @@ detectTerminal(String os): String {
     if (terminal != "") return terminal
 
     if (os == "Linux") {
-        var parent = process.run(
+        var ptyxisVersion = process.run(
             "sh",
             "-c",
-            "ps -p \"$PPID\" -o comm= 2>/dev/null | xargs basename"
+            "printf '%s' \"${PTYXIS_VERSION:-}\""
         ).stdout.trim()
 
-        if (parent != "") return parent
+        if (ptyxisVersion != "") {
+            return "Ptyxis " + ptyxisVersion
+        }
     }
 
     return "Unknown"
@@ -228,6 +234,26 @@ detectPlatform(String os): String {
     return "unknown"
 }
 
+detectUptime(String os): String {
+    if (os == "macOS") {
+        return process.run(
+            "sh",
+            "-c",
+            "uptime | sed 's/.* up //' | sed 's/, [0-9][0-9]* users.*//'"
+        ).stdout.trim()
+    }
+
+    if (os == "Linux") {
+        return process.run(
+            "sh",
+            "-c",
+            "uptime -p | sed 's/^up //'"
+        ).stdout.trim()
+    }
+
+    return "Unknown"
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
     var platform = detectPlatform(os)
@@ -246,11 +272,7 @@ collectSystemInfo(): SystemInfo {
     var user = process.run("whoami").stdout.trim()
     var shortHost = process.run("hostname", "-s").stdout.trim()
 
-    var uptime = process.run(
-        "sh",
-        "-c",
-        "uptime | sed 's/.* up //' | sed 's/, [0-9][0-9]* users.*//'"
-    ).stdout.trim()
+    var uptime = detectUptime(os)
 
     var kofVersion = process.run(
         "sh",

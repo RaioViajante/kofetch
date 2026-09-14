@@ -20,6 +20,9 @@ buildInfo(SystemInfo system): List<String> {
         accent + "Uptime:" + reset + "   " + system.uptime(),
         accent + "Shell:" + reset + "    " + system.shell(),
         accent + "Terminal:" + reset + " " + system.terminal(),
-        accent + "Kof:" + reset + "      " + system.kofVersion()
+        accent + "Kof:" + reset + "      " + system.kofVersion(),
+        "",
+        paletteNormal(),
+        paletteBright()
     )
 }

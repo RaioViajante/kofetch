@@ -1,5 +1,35 @@
-resetColor(): String return "\u001B[0m"
+resetColor(): String {
+    return "\u001B[0m"
+}
 
-accentColor(): String return "\u001B[38;5;45m"
+accentColor(): String {
+    return "\u001B[38;5;45m"
+}
 
-titleColor(): String return "\u001B[1;38;5;213m"
+titleColor(): String {
+    return "\u001B[1;38;5;213m"
+}
+
+paletteNormal(): String {
+    return "\u001B[40m  "
+        + "\u001B[41m  "
+        + "\u001B[42m  "
+        + "\u001B[43m  "
+        + "\u001B[44m  "
+        + "\u001B[45m  "
+        + "\u001B[46m  "
+        + "\u001B[47m  "
+        + "\u001B[0m"
+}
+
+paletteBright(): String {
+    return "\u001B[100m  "
+        + "\u001B[101m  "
+        + "\u001B[102m  "
+        + "\u001B[103m  "
+        + "\u001B[104m  "
+        + "\u001B[105m  "
+        + "\u001B[106m  "
+        + "\u001B[107m  "
+        + "\u001B[0m"
+}

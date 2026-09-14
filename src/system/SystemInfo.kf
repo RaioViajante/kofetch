@@ -32,6 +32,14 @@ detectOsVersion(String os): String {
         return process.run("sw_vers", "-productVersion").stdout.trim()
     }
 
+    if (os == "Linux") {
+        return process.run(
+            "sh",
+            "-c",
+            ". /etc/os-release 2>/dev/null; printf '%s' \"${PRETTY_NAME:-Linux}\""
+        ).stdout.trim()
+    }
+
     return ""
 }
 
@@ -50,6 +58,18 @@ detectModel(String os): String {
         ).stdout.trim()
 
         return model + " (" + chip + ")"
+    }
+
+    if (os == "Linux") {
+        var model = process.run(
+            "sh",
+            "-c",
+            "cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null"
+        ).stdout.trim()
+
+        if (model == "") return "Unknown"
+
+        return model
     }
 
     return "Unknown"
@@ -76,6 +96,22 @@ detectCpu(String os): String {
         return name + " (" + cores + " cores)"
     }
 
+    if (os == "Linux") {
+        var name = process.run(
+            "sh",
+            "-c",
+            "lscpu | awk -F: '/Model name/ {gsub(/^[ \t]+/, \"\", $2); print $2; exit}'"
+        ).stdout.trim()
+
+        var cores = process.run(
+            "nproc"
+        ).stdout.trim()
+
+        if (name == "") return "Unknown"
+
+        return name + " (" + cores + " cores)"
+    }
+
     return "Unknown"
 }
 
@@ -88,22 +124,37 @@ detectMemory(String os): String {
         ).stdout.trim()
     }
 
+    if (os == "Linux") {
+        return process.run(
+            "sh",
+            "-c",
+            "free -b | awk '/Mem:/ {printf \"%.1f GiB / %.1f GiB\", $3 / 1073741824, $2 / 1073741824}'"
+        ).stdout.trim()
+    }
+
     return "Unknown"
 }
 
 detectTerminal(String os): String {
-    if (os == "macOS") {
-        var terminal = process.run(
+    var terminal = process.run(
+        "sh",
+        "-c",
+        "printf '%s' \"${TERM_PROGRAM:-}\""
+    ).stdout.trim()
+
+    if (terminal == "vscode") return "Visual Studio Code"
+    if (terminal == "Apple_Terminal") return "Terminal.app"
+    if (terminal == "iTerm.app") return "iTerm2"
+    if (terminal != "") return terminal
+
+    if (os == "Linux") {
+        var parent = process.run(
             "sh",
             "-c",
-            "printf '%s' \"${TERM_PROGRAM:-${TERM:-Unknown}}\""
+            "ps -p \"$PPID\" -o comm= 2>/dev/null | xargs basename"
         ).stdout.trim()
 
-        if (terminal == "vscode") return "Visual Studio Code"
-        if (terminal == "Apple_Terminal") return "Terminal.app"
-        if (terminal == "iTerm.app") return "iTerm2"
-
-        return terminal
+        if (parent != "") return parent
     }
 
     return "Unknown"
@@ -115,6 +166,14 @@ detectDisk(String os): String {
             "sh",
             "-c",
             "df -k / | awk 'NR==2 {printf \"%.1f GiB / %.1f GiB\", $3 / 1048576, $2 / 1048576}'"
+        ).stdout.trim()
+    }
+
+    if (os == "Linux") {
+        return process.run(
+            "sh",
+            "-c",
+            "df -B1 / | awk 'NR==2 {printf \"%.1f GiB / %.1f GiB\", $3 / 1073741824, $2 / 1073741824}'"
         ).stdout.trim()
     }
 
@@ -130,6 +189,18 @@ detectBattery(String os): String {
         ).stdout.trim()
 
         if (battery == "") return "Unknown"
+
+        return battery
+    }
+
+    if (os == "Linux") {
+        var battery = process.run(
+            "sh",
+            "-c",
+            "for bat in /sys/class/power_supply/BAT*; do if [ -f \"$bat/capacity\" ]; then printf '%s%%' \"$(cat \"$bat/capacity\")\"; break; fi; done"
+        ).stdout.trim()
+
+        if (battery == "") return "N/A"
 
         return battery
     }

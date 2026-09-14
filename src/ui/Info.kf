@@ -1,5 +1,12 @@
 import system
 
+displayOs(SystemInfo system): String {
+    if (system.os() == "Linux") {
+        return system.osVersion()
+    }
+
+    return system.os() + " " + system.osVersion()
+}
 
 buildInfo(SystemInfo system): List<String> {
     var reset = resetColor()
@@ -9,7 +16,7 @@ buildInfo(SystemInfo system): List<String> {
     return listOf(
         title + system.user() + "@" + system.shortHost() + reset,
         "──────────────────────────────",
-        accent + "OS:" + reset + "       " + system.os() + " " + system.osVersion(),
+        accent + "OS:" + reset + "       " + displayOs(system),
         accent + "Host:" + reset + "     " + system.model(),
         accent + "Kernel:" + reset + "   " + system.kernel(),
         accent + "Arch:" + reset + "     " + system.arch(),

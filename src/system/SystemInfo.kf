@@ -1,5 +1,8 @@
 record SystemInfo(
     String os,
+    String osVersion,
+    String model,
+    String kernel,
     String arch,
     String shell,
     String host,
@@ -18,8 +21,45 @@ detectOs(): String {
     return raw
 }
 
+detectOsVersion(String os): String {
+    if (os == "macOS") {
+        return process.run("sw_vers", "-productVersion").stdout.trim()
+    }
+
+    return ""
+}
+
+detectModel(String os): String {
+    if (os == "macOS") {
+        var model = process.run(
+            "sh",
+            "-c",
+            "system_profiler SPHardwareDataType | awk -F': ' '/Model Name/ {print $2; exit}'"
+        ).stdout.trim()
+
+        var chip = process.run(
+            "sh",
+            "-c",
+            "system_profiler SPHardwareDataType | awk -F': ' '/Chip/ {print $2; exit}'"
+        ).stdout.trim()
+
+        return model + " (" + chip + ")"
+    }
+
+    return "Unknown"
+}
+
+detectKernel(): String {
+    return process.run("uname", "-sr").stdout.trim()
+}
+
 collectSystemInfo(): SystemInfo {
     var os = detectOs()
+
+    var osVersion = detectOsVersion(os)
+    var model = detectModel(os)
+    var kernel = detectKernel()
+
     var arch = process.run("uname", "-m").stdout.trim()
     var shell = process.run("sh", "-c", "basename \"$SHELL\"").stdout.trim()
     var host = process.run("hostname").stdout.trim()
@@ -40,6 +80,9 @@ collectSystemInfo(): SystemInfo {
 
     return SystemInfo(
         os,
+        osVersion,
+        model,
+        kernel,
         arch,
         shell,
         host,

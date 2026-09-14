@@ -9,11 +9,12 @@ buildInfo(SystemInfo system): List<String> {
     return listOf(
         title + system.user() + "@" + system.shortHost() + reset,
         "──────────────────────────────",
-        accent + "OS:" + reset + "       " + system.os(),
+        accent + "OS:" + reset + "       " + system.os() + " " + system.osVersion(),
+        accent + "Host:" + reset + "     " + system.model(),
+        accent + "Kernel:" + reset + "   " + system.kernel(),
         accent + "Arch:" + reset + "     " + system.arch(),
-        accent + "Shell:" + reset + "    " + system.shell(),
-        accent + "Host:" + reset + "     " + system.host(),
         accent + "Uptime:" + reset + "   " + system.uptime(),
+        accent + "Shell:" + reset + "    " + system.shell(),
         accent + "Kof:" + reset + "      " + system.kofVersion()
     )
 }
